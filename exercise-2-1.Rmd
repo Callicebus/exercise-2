@@ -22,15 +22,156 @@ plot(cars)
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
 ----
+> ###_**Note: Most comments in this document are just there for future reference - to remind myself of steps I took, of what specific functions (or parts of them) mean.**_
+
 #Module 3# 
 ###<span style="color:blue">Step 4, Version 1</span>
 I'm just making changes in this Rmarkdown file to see if modifying it will lead to a status change in the Git window.
 
 #Module 4#
-###<span style="color:red">Challenge 1</span>
+###<span style="color:green">Challenge 1</span>
+>First, create a vector of 1 word character strings comprising the first line of the Gettysburg address: “Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.” Then, extract every third element of this vector.
+>Hint 1: Take a look at the {stringr} package and the function str_split() to see if you can easily divide a single string into a vector of substrings.
+>Hint 2: If you’re ambitious, the following function, gsub("[[:punct:]]","",*string*), applied to *string*, will remove punction and special characters from that string.
+
+Now, there are several options. A somewhat time consuming one is the following:
+```{r}
+List <- as.list(c("Four", "score", "and", "seven", "years", "ago", "our", "fathers", "brought", "forth", "on", "this", "continent", "a", "new", "nation", "conceived", "in", "Liberty", "and", "dedicated", "to", "the", "proposition", "that", "all", "men", "are", "created", "equal"))
+List[seq(from = 1, to = 30, by = 3)]
+```
+
+You can also create a vector that contains the whole sentence, that you'll then have to split into separate elements.
+Creating the vector:
 ```{r}
 Gettysburg <- "Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal."
+```
+
+Splitting the vector and then reading each third word:
+```{r}
+strsplit(Gettysburg, " ")
+Gettysburg[seq(from = 1, to = 30, by = 3)]
+```
+<span style="color:red"> **Why is this not working!?**</span>
+
+Other but very similar possibility is by using the StringR package:
+```{r}
 #Load the StringR package before you can use it!
 library(stringr)
-str_split(Gettysburg, " ")
+GB <- str_split(Gettysburg, " ") #This splits the sentence at each space, that's the function of the " " part.
+GB[seq(from = 1, to = 30, by = 3)]
+```
+<span style="color:red"> **Why is this not working!?**</span>
+
+###<span style="color:green">Challenge 2</span>
+
+Matrix **m**:
+```{r}
+m <- matrix(data = 1:80, nrow = 8, ncol = 10, byrow = FALSE)
+m
+```
+
+><span style="color:red">2.1</span> Given the matrix, **m**, above, extract the 2nd, 3rd, and 6th columns and assign them to the variable **x**
+````{r}
+x <- m[ ,c(2, 3, 6)]
+x
+```
+
+><span style="color:red">2.2</span> Given the matrix, **m**, above, extract the 6th to 8th row and assign them to the variable **y**
+```{r}
+y <- m[c(6:8), ]
+y
+```
+
+><span style="color:red">2.3</span> Given the matrix, **m**, above, extract the elements from row 2, column 2 to row 6, column 9 and assign them to the variable **z**
+```{r}
+z <- m[c(2:6),c(2:9)]
+z
+```
+
+###<span style="color:green">Challenge 3</span>
+
+><span style="color:red">3.1</span> Construct a 4-dimensional, 400 element array (5 x 5 x 4 x 4) named a consisting of the numbers 400 to 1 (i.e., a descending series)
+
+```{r}
+a <- array(data= 400:1, dim = c(5, 5, 4, 4))
+```
+><span style="color:red">3.2</span> Given this matrix, what would the following return?
+
+><span style="color:red">3.2.1</span> a[1, 1, 1, 2]
+```{r}
+a[1, 1, 1, 2]
+```
+This gives you the value in the first row, first column, first layer, and second element in this fourth dimension.
+
+><span style="color:red">3.2.2</span> a[2, 3, 2, ]
+```{r}
+a[2, 3, 2, ]
+```
+This gives you all values in the second row, third column, second layer in all four dimentions.
+
+><span style="color:red">3.2.3</span> a[1:5, 1:5, 3, 3]
+```{r}
+a[1:5, 1:5, 3, 3]
+```
+This gives you all values from the first to fifth row that are in the first to fifth column of the third layer in the third of four dimensions. (No idea if that sentence makes any sense...)
+
+###<span style="color:green">Challenge 4</span>
+> Create a list representing this (simplified) primate taxonomy. Hint: you can use lists as elements in a list.
+
+I think you have to work backwards to get lists within lists, so by creating the lists for the platyrrhine and catarrhine families:
+```{r}
+Platyrrhini <- c ("Cebidae", "Atelidae", "Pitheciidae")
+Catarrhini <- c ("Cercopithecidae", "Hylobatidae", "Hominidae")
+```
+Now you can create a list for anthropoids, which includes the two lists I just created.
+```{r}
+Anthropoidea <- list(Platyrrhini,Catarrhini)
+names(Anthropoidea) <- c("Platyrrhini", "Catarrhini")
+Anthropoidea
+```
+Okay, that works. Now I need to make a list for the [freeky tarsiers](https://www.youtube.com/watch?v=6Jz0JcQYtqo) and than add both the Anthropoidea and Tarsioidea lists to a Haplorhini list:
+```{r}
+Tarsioidea <- c("Tarsiidae")
+Haplorhini <- list(Anthropoidea, Tarsioidea)
+names(Haplorhini) <- c("Anthropoidea", "Tarsioidea")
+```
+YES! One half done. Now for the Strepsirrhini:
+```{r}
+Lorisoidea <- c("Lorisidae", "Galagidae")
+Lemuroidea <- c("Cheirogaleidae", "Lepilemuridae", "Indriidae", "Lemuridae", "Daubentoniidae")
+Strepsirhini <- list(Lorisoidea, Lemuroidea)
+names(Strepsirhini) <- c("Lorisoidea", "Lemuroidea")
+Strepsirhini
+```
+Last step... creating the primate list that should *hopefully* show the full taxonomy!
+```{r}
+Primates <- list(Haplorhini, Strepsirhini)
+names(Primates) <- c("Haplorhini","Strepsirhini")
+Primates
+```
+
+###<span style="color:green">Challenge 5</span>
+>Store the following numbers as a 6 x 3 matrix: 3, 0, 1 ,23, 1, 2, 33, 1, 1, 42, 0, 1, 41, 0, 2
+```{r}
+Vector <- c(3, 0, 1 ,23, 1, 2, 33, 1, 1, 42, 0, 1, 41, 0, 2)
+Matrix <- matrix(data = Vector, nrow = 5, ncol = 3)
+Matrix
+```
+
+>Then, coerce the matrix to a data frame.
+```{r}
+Matrix <- as.data.frame(Matrix)
+Matrix
+```
+
+>As a data frame, coerce the second column to be logical-valued
+```{r}
+Matrix[,2] <- as.logical(Matrix[,2])
+Matrix
+```
+
+>As a data frame, coerce the third column to be factor-valued
+```{r}
+Matrix[,3] <- as.factor(Matrix[,3])
+Matrix
 ```
