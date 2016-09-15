@@ -46,21 +46,15 @@ Creating the vector:
 Gettysburg <- "Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal."
 ```
 
-Splitting the vector and then reading each third word:
-```{r}
-strsplit(Gettysburg, " ")
-Gettysburg[seq(from = 1, to = 30, by = 3)]
-```
-<span style="color:red"> **Why is this not working!?**</span>
-
-Other but very similar possibility is by using the StringR package:
+Then load the StringR package and :
 ```{r}
 #Load the StringR package before you can use it!
 library(stringr)
 GB <- str_split(Gettysburg, " ") #This splits the sentence at each space, that's the function of the " " part.
-GB[seq(from = 1, to = 30, by = 3)]
+GB <- GB[[1]]
+GettysB <- GB[seq(from = 1, to = 30, by = 3)]
+GettysB
 ```
-<span style="color:red"> **Why is this not working!?**</span>
 
 ###<span style="color:green">Challenge 2</span>
 
@@ -159,19 +153,25 @@ Matrix
 ```
 
 >Then, coerce the matrix to a data frame.
+
+Turning the matrix into a data frame allows you to gve different columns/rows different datatypes. This is not possible in a matrix - there everything needs to have the same data type.
 ```{r}
-Matrix <- as.data.frame(Matrix)
-Matrix
+df <- data.frame(Matrix)
+df
 ```
+For future reference: These as-dot coercion functions are explained in 6.2.4 in The Book of R.
 
 >As a data frame, coerce the second column to be logical-valued
+
 ```{r}
-Matrix[,2] <- as.logical(Matrix[,2])
-Matrix
+df$X2 <- as.logical(df$X2)
+df
 ```
+I think the code is correct, because now you see the Boolean values TRUE and FALSE in the second column.
 
 >As a data frame, coerce the third column to be factor-valued
 ```{r}
-Matrix[,3] <- as.factor(Matrix[,3])
-Matrix
+df$X3 <- as.factor(df$X3)
+df
 ```
+Done!
