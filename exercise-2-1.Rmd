@@ -22,4 +22,15 @@ plot(cars)
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
 ----
-Step 1: Making changes in this Rmarkdown file to see if modifying it will lead to a status change in the Git window.
+#Module 3# 
+###<span style="color:blue">Step 4, Version 1</span>
+I'm just making changes in this Rmarkdown file to see if modifying it will lead to a status change in the Git window.
+
+#Module 4#
+###<span style="color:red">Challenge 1</span>
+```{r}
+Gettysburg <- "Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal."
+#Load the StringR package before you can use it!
+library(stringr)
+str_split(Gettysburg, " ")
+```
